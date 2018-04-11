@@ -8,10 +8,11 @@ namespace eys {
     };
 
     class connection {
-    protected:
+    private:
         int fd;
     public:
         connection(connection_type type);
+        int get() const;
         virtual ~connection();
     };
 }

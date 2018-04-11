@@ -18,6 +18,10 @@ namespace eys {
         this->fd = socket(AF_INET, t, 0);
     }
 
+    int connection::get() const {
+        return this->fd;
+    }
+
     connection::~connection() {
         close(this->fd);
     }

@@ -8,6 +8,11 @@ namespace eys {
         : ip(ip)
         , port(port) { }
     
+    address::address(sockaddr_in addr)
+        : port(htons(addr.sin_port)) {
+            //this->ip = std::string(inet_ntoa(addr.sin_addr.s_addr));
+        }
+    
     sockaddr_in address::get() const {
         sockaddr_in ret;
         ret.sin_family = AF_INET;

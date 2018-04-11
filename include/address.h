@@ -10,6 +10,7 @@ namespace eys {
         std::string ip;
         short port;
     public:
+        address(sockaddr_in addr);
         address(std::string ip, short port);
 
         sockaddr_in get() const;
