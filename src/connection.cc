@@ -4,7 +4,8 @@
 #include <unistd.h>
 
 namespace eys {
-    connection::connection(connection_type type) {
+    connection::connection(connection_type type)
+        : binded(false) {
         int t;
         switch (type) {
         case connection_type::conn_type_tcp:
@@ -18,11 +19,22 @@ namespace eys {
         this->fd = socket(AF_INET, t, 0);
     }
 
+    connection::~connection() {
+        close(this->fd);
+    }
+
     int connection::get() const {
         return this->fd;
     }
 
-    connection::~connection() {
-        close(this->fd);
+    bool connection::bindAddress(address &local) {
+        if (this->binded == true) {
+            return false;
+        }
+
+        sockaddr_in addr = local.get();
+        int isSuccess = bind(this->fd, (sockaddr *) &addr, sizeof(sockaddr_in));
+        this->binded = isSuccess == 0;
+        return this->binded;
     }
 }

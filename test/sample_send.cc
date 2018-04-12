@@ -4,6 +4,6 @@
 #include <string>
 
 int main() {
-    eys::udp_stream() << eys::address("0.0.0.0", 1234) << 'A';
+    eys::udp_stream().out(eys::address("127.0.0.1", 1234)) << 'A';
     return 0;
 }
