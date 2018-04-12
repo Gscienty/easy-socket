@@ -9,6 +9,8 @@ namespace eys {
     private:
         std::string ip;
         short port;
+
+        sockaddr_in sample_addr;
     public:
         address(sockaddr_in addr);
         address(std::string ip, short port);
