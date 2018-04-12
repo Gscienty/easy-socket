@@ -4,7 +4,7 @@
 #include "address.h"
 #include "connection.h"
 #include "udp_sender.h"
-#include "udp_receiver.h"
+#include "udp_single_receiver.h"
 
 namespace eys {
     class udp_stream {

@@ -11,7 +11,6 @@ namespace eys {
         return udp_single_receiver(addr, reveiver_buffer_size);
     }
 
-
     udp_sender udp_stream::out(address addr) {
         return udp_sender(addr);
     }
