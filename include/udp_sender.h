@@ -10,11 +10,15 @@
 namespace eys {
     class udp_sender {
     private:
-        connection conn;
+        std::shared_ptr<connection> conn;
         address remote;
     public:
         udp_sender(address remote)
-            : conn(connection_type::conn_type_udp)
+            : conn(std::make_shared<connection>(* (new connection(connection_type::conn_type_udp))))
+            , remote(remote) { }
+        
+        udp_sender(address remote, std::shared_ptr<connection> conn)
+            : conn(conn)
             , remote(remote) { }
 
         template <typename E = char, typename OP_serializer = serializer<E> >
@@ -22,7 +26,7 @@ namespace eys {
             size_t size;
             std::unique_ptr<char> bytes = OP_serializer::serialize(e, size);
             sockaddr_in addr = this->remote.get();
-            sendto(this->conn.get(), bytes.get(), size, 0, (sockaddr *) &addr, sizeof(sockaddr_in));
+            sendto(this->conn->get_fd(), bytes.get(), size, 0, (sockaddr *) &addr, sizeof(sockaddr_in));
             return (*this);
         }
     };

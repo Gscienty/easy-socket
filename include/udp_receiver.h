@@ -9,14 +9,15 @@
 namespace eys {
     class udp_receiver {
     private:
-        connection conn;
-        address local;
+        std::shared_ptr<connection> conn;
         std::shared_ptr<char> buffer;
+        address local;
         size_t buffer_size;
     public:
         udp_receiver(address local, size_t buffer_size);
 
-        connection &getConnection() const;
+        std::shared_ptr<connection> get_connection() const;
+        int get_fd() const;
         udp_visitor get_visitor();
     };
 }

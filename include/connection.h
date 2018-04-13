@@ -18,8 +18,8 @@ namespace eys {
         connection(connection_type type);
         virtual ~connection();
 
-        int get() const;
-        bool bindAddress(address &addr);
+        int get_fd() const;
+        bool bind_address(address &addr);
     };
 }
 

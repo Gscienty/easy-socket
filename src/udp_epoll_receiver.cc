@@ -21,7 +21,7 @@ namespace eys {
         event.events = static_cast<int>(types);
         event.data.ptr = reinterpret_cast<void *>(&receiver);
 
-        int ret = epoll_ctl(this->epoll_fd, EPOLL_CTL_ADD, receiver.getConnection().get(), &event) >= 0;
+        int ret = epoll_ctl(this->epoll_fd, EPOLL_CTL_ADD, receiver.get_fd(), &event) >= 0;
         if (ret < 0) {
             return false;
         }
@@ -29,17 +29,15 @@ namespace eys {
 
     void udp_epoll_receiver::unreg(udp_receiver &receiver) {
         epoll_event event;
-        epoll_ctl(this->epoll_fd, EPOLL_CTL_DEL, receiver.getConnection().get(), &event);
+        epoll_ctl(this->epoll_fd, EPOLL_CTL_DEL, receiver.get_fd(), &event);
     }
 
     size_t udp_epoll_receiver::await(int timeout) {
         if (this->waiting_fds_count != 0) {
             return this->waiting_fds_count;
         }
-        this->waiting_fds_count = epoll_wait(this->epoll_fd
-                                            , this->active_events
-                                            , this->fd_count * sizeof(epoll_event)
-                                            , timeout);
+        this->waiting_fds_count = epoll_wait(
+            this->epoll_fd, this->active_events, this->fd_count, timeout);
 
         return this->waiting_fds_count;
     }

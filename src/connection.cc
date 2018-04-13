@@ -23,11 +23,11 @@ namespace eys {
         close(this->fd);
     }
 
-    int connection::get() const {
+    int connection::get_fd() const {
         return this->fd;
     }
 
-    bool connection::bindAddress(address &local) {
+    bool connection::bind_address(address &local) {
         if (this->binded == true) {
             return false;
         }

@@ -3,20 +3,22 @@
 
 #include "address.h"
 #include "deserializer.h"
+#include "udp_sender.h"
 #include <memory>
 
 namespace eys {
 
     class udp_visitor {
     private:
+        std::shared_ptr<char> buffer;
+        std::shared_ptr<connection> conn;
         address local;
         address remote;
-        std::shared_ptr<char> buffer;
         const size_t buffer_size;
         size_t seek;
 
     public:
-        udp_visitor(address local, address remote, std::shared_ptr<char> buffer, const size_t buffer_size);
+        udp_visitor(address local, address remote, std::shared_ptr<connection> &conn, std::shared_ptr<char> buffer, const size_t buffer_size);
         
         template <typename E = char, typename OP_deserializer = deserializer<E> >
         udp_visitor &operator>> (E &e) {
@@ -28,6 +30,7 @@ namespace eys {
         }
         udp_visitor &operator>> (address &addr);
         size_t remainder() const;
+        udp_sender send();
     };
 }
 
