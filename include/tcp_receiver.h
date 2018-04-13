@@ -3,6 +3,7 @@
 
 #include "address.h"
 #include "connection.h"
+#include <memory>
 
 namespace eys {
     class tcp_receiver {
@@ -13,8 +14,9 @@ namespace eys {
     public:
         tcp_receiver(address local, size_t buffer_size);
 
-        connection &getConnection() const;
+        std::shared_ptr<connection> get_connection() const;
         bool watch(int backlog = 20);
+        int get_fd() const;
     };
 }
 

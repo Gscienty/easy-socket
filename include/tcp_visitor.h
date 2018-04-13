@@ -8,9 +8,26 @@
 namespace eys {
     class tcp_visitor {
     private:
-        connection conn;
-        std::shared_ptr<char> buffer;
+        std::unique_ptr<char> buffer;
+        std::shared_ptr<connection> conn;
+        address local;
+        address remote;
+        const size_t buffer_size;
+        size_t seek;
+    
     public:
+        tcp_visitor(address local, address remote, std::shared_ptr<connection> &conn, const size_t buffer_size);
+
+        template <typename E = char, typename OP_deserializer = deserializer<E> >
+        tcp_visitor &operator>> (E &e) {
+            if (this->seek >= this->buffer_size) {
+                return (*this);
+            }
+            e = OP_deserializer::deserialize(this->buffer.get(), this->buffer_size, this->seek);
+            return (*this);
+        }
+        tcp_visitor &operator>> (address &addr);
+        int get_fd() const;
     };
 }
 
