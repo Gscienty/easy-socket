@@ -28,7 +28,7 @@ void test() {
             eys::udp_visitor visitor = r.get_visitor();
             
             visitor >> a;
-            std::cout << a << std::endl;
+            std::cout << visitor.get_fd() << ':' << a << std::endl;
         }
     }
 }

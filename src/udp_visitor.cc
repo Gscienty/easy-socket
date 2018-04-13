@@ -21,4 +21,8 @@ namespace eys {
     udp_sender udp_visitor::send() {
         return udp_sender(this->remote, this->conn);
     }
+
+    int udp_visitor::get_fd() const {
+        return this->conn->get_fd();
+    }
 }

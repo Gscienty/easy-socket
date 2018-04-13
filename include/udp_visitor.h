@@ -31,6 +31,7 @@ namespace eys {
         udp_visitor &operator>> (address &addr);
         size_t remainder() const;
         udp_sender send();
+        int get_fd() const;
     };
 }
 
