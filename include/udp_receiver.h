@@ -1,9 +1,9 @@
-#ifndef _EYS_UDP_SINGLE_RECEIVER_
-#define _EYS_UDP_SINGLE_RECEIVER_
+#ifndef _EYS_UDP_RECEIVER_
+#define _EYS_UDP_RECEIVER_
 
 #include "address.h"
 #include "connection.h"
-#include "udp_special_remote_receiver.h"
+#include "udp_linked_receiver.h"
 
 namespace eys {
     class udp_receiver {
@@ -17,7 +17,7 @@ namespace eys {
         virtual ~udp_receiver();
 
         template <typename E = char>
-        udp_special_remote_receiver operator>> (E &e) {
+        udp_linked_receiver operator>> (E &e) {
             sockaddr_in remoteAddr;
             socklen_t len = sizeof(sockaddr_in);
             int truthLen = recvfrom(this->conn.get()
@@ -27,10 +27,10 @@ namespace eys {
                                 , (sockaddr *) &remoteAddr
                                 , &len);
             
-            udp_special_remote_receiver receiver = udp_special_remote_receiver(local
-                                                                            , address(remoteAddr)
-                                                                            , this->buffer
-                                                                            , len);
+            udp_linked_receiver receiver = udp_linked_receiver(local
+                                                            , address(remoteAddr)
+                                                            , this->buffer
+                                                            , len);
             receiver >> e;
             return receiver;
         }
