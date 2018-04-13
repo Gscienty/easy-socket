@@ -1,10 +1,16 @@
 #include "udp_stream.h"
 #include "address.h"
 #include "serializer.h"
-#include <string>
+#include <thread>
+#include <chrono>
 
 int main() {
-    int a = 0x12345678;
-    eys::udp_stream().out(eys::address("127.0.0.1", 1234)) << a;
+    eys::udp_sender out = eys::udp_stream().out(eys::address("127.0.0.1", 1234));
+
+    for (int i = 0; i < 10; i++) {
+        out << i;
+        
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
     return 0;
 }

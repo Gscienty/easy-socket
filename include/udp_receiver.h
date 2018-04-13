@@ -6,15 +6,15 @@
 #include "udp_special_remote_receiver.h"
 
 namespace eys {
-    class udp_single_receiver {
+    class udp_receiver {
     private:
         connection conn;
         address local;
         char *buffer;
         size_t buffer_size;
     public:
-        udp_single_receiver(address local, size_t buffer_size);
-        virtual ~udp_single_receiver();
+        udp_receiver(address local, size_t buffer_size);
+        virtual ~udp_receiver();
 
         template <typename E = char>
         udp_special_remote_receiver operator>> (E &e) {
@@ -34,6 +34,8 @@ namespace eys {
             receiver >> e;
             return receiver;
         }
+
+        connection &getConnection();
     };
 }
 
