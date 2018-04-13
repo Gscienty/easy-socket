@@ -7,7 +7,6 @@ namespace eys {
     tcp_sender::tcp_sender(address remote)
         : conn(std::make_shared<connection>(* (new connection(connection_type::conn_type_tcp))))
         , remote(remote) {
-        
         this->conn->bind_address(remote);
 
         sockaddr_in addr = remote.get();
@@ -15,7 +14,7 @@ namespace eys {
     }
 
 
-    tcp_sender::tcp_sender(address remote, std::shared_ptr<connection> conn)
+    tcp_sender::tcp_sender(std::shared_ptr<connection> conn)
         : conn(conn)
-        , remote(remote) { }
+        , remote(conn->get_binded_address()) { }
 }

@@ -1,4 +1,4 @@
-#include "tcp_visitor.cc"
+#include "tcp_visitor.h"
 
 namespace eys {
     tcp_visitor::tcp_visitor(address local, address remote, std::shared_ptr<connection> &conn, const size_t buffer_size)

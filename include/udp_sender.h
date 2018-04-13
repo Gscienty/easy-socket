@@ -17,9 +17,9 @@ namespace eys {
             : conn(std::make_shared<connection>(* (new connection(connection_type::conn_type_udp))))
             , remote(remote) { }
         
-        udp_sender(address remote, std::shared_ptr<connection> conn)
+        udp_sender(std::shared_ptr<connection> conn)
             : conn(conn)
-            , remote(remote) { }
+            , remote(conn->get_binded_address()) { }
 
         template <typename E = char, typename OP_serializer = serializer<E> >
         udp_sender &operator<< (E e) {

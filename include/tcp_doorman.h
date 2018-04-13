@@ -1,22 +1,25 @@
-#ifndef _EYS_TCP_RECEIVER_
-#define _EYS_TCP_RECEIVER_
+#ifndef _EYS_TCP_DOORMAN_
+#define _EYS_TCP_DOORMAN_
 
 #include "address.h"
 #include "connection.h"
+#include "tcp_visitor.h"
 #include <memory>
 
 namespace eys {
-    class tcp_receiver {
+    class tcp_doorman {
     private:
-        connection conn;
+        std::shared_ptr<connection> conn;
         address local;
         size_t default_buffer_size;
     public:
-        tcp_receiver(address local, size_t buffer_size);
+        tcp_doorman(address local, size_t buffer_size = 1024);
 
         std::shared_ptr<connection> get_connection() const;
         bool watch(int backlog = 20);
         int get_fd() const;
+        tcp_visitor get_visitor();
+        tcp_visitor get_visitor(size_t buffer_size);
     };
 }
 

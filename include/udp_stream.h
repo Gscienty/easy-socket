@@ -4,7 +4,7 @@
 #include "address.h"
 #include "connection.h"
 #include "udp_sender.h"
-#include "udp_receiver.h"
+#include "udp_doorman.h"
 
 namespace eys {
     class udp_stream {
@@ -13,8 +13,8 @@ namespace eys {
     public:
         udp_stream();
 
-        udp_receiver receive(address addr);
-        udp_receiver receive(address addr, size_t reveiver_buffer_size);
+        udp_doorman receive(address addr);
+        udp_doorman receive(address addr, size_t reveiver_buffer_size);
 
         udp_sender send(address addr);
     };

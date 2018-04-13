@@ -1,16 +1,17 @@
 #include "udp_stream.h"
-#include "udp_epoll_receiver.h"
+#include "udp_epoll_doorman.h"
 #include "address.h"
 #include <iostream>
 #include <string>
 #include <thread>
 #include <chrono>
+#include <utility>
 
 void test() {
-    eys::udp_epoll_receiver epoller(200);
+    eys::udp_epoll_doorman epoller(200);
 
-    eys::udp_receiver r1(eys::address("0.0.0.0", 1234), 1024);
-    eys::udp_receiver r2(eys::address("0.0.0.0", 1234), 1024);
+    eys::udp_doorman r1(eys::address("0.0.0.0", 1234));
+    eys::udp_doorman r2(eys::address("0.0.0.0", 1234));
 
     epoller.reg(r1, eys::epoll_event_readable);
     epoller.reg(r2, eys::epoll_event_readable);
@@ -23,7 +24,7 @@ void test() {
         }
 
         while(waiting_count--) {
-            eys::udp_receiver &r = epoller.take();
+            eys::udp_doorman &r = epoller.take();
             int a;
             eys::udp_visitor visitor = r.get_visitor();
             

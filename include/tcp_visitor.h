@@ -1,8 +1,9 @@
-#ifndef _EYS_TCP_LINKED_RECEIVER_
-#define _EYS_TCP_LINKED_RECEIVER_
+#ifndef _EYS_TCP_VISITOR_
+#define _EYS_TCP_VISITOR_
 
 #include "address.h"
 #include "connection.h"
+#include "deserializer.h"
 #include <memory>
 
 namespace eys {
@@ -28,6 +29,7 @@ namespace eys {
         }
         tcp_visitor &operator>> (address &addr);
         int get_fd() const;
+        size_t remainder() const;
     };
 }
 

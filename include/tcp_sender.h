@@ -13,7 +13,7 @@ namespace eys {
         address remote;
     public:
         tcp_sender(address remote);
-        tcp_sender(address remote, std::shared_ptr<connection> conn);
+        tcp_sender(std::shared_ptr<connection> conn);
 
         template <typename E = char, typename OP_serializer = serializer<E> >
         tcp_sender &operator<< (E e) {

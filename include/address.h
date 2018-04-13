@@ -12,6 +12,7 @@ namespace eys {
 
         sockaddr_in sample_addr;
     public:
+        address();
         address(sockaddr_in addr);
         address(std::string ip, short port);
 

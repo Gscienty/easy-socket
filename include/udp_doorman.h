@@ -1,5 +1,5 @@
-#ifndef _EYS_UDP_RECEIVER_
-#define _EYS_UDP_RECEIVER_
+#ifndef _EYS_UDP_DOORMAN_
+#define _EYS_UDP_DOORMAN_
 
 #include "address.h"
 #include "connection.h"
@@ -7,18 +7,16 @@
 #include <memory>
 
 namespace eys {
-    class udp_receiver {
+    class udp_doorman {
     private:
         std::shared_ptr<connection> conn;
-        std::shared_ptr<char> buffer;
         address local;
-        size_t buffer_size;
     public:
-        udp_receiver(address local, size_t buffer_size);
+        udp_doorman(address local);
 
         std::shared_ptr<connection> get_connection() const;
         int get_fd() const;
-        udp_visitor get_visitor();
+        udp_visitor get_visitor(size_t buffer_size = 1024);
     };
 }
 

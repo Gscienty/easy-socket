@@ -4,6 +4,8 @@
 #include <arpa/inet.h>
 
 namespace eys {
+    address::address() { }
+
     address::address(std::string ip, short port)
         : ip(ip)
         , port(port) {

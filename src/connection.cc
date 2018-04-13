@@ -19,6 +19,11 @@ namespace eys {
         this->fd = socket(AF_INET, t, 0);
     }
 
+    connection::connection(connection_type type, address addr, int fd)
+        : binded(true)
+        , binded_address(addr)
+        , fd(fd) { }
+
     connection::~connection() {
         close(this->fd);
     }
@@ -34,7 +39,12 @@ namespace eys {
 
         sockaddr_in addr = local.get();
         int isSuccess = bind(this->fd, (sockaddr *) &addr, sizeof(sockaddr_in));
+        this->binded_address = local;
         this->binded = isSuccess == 0;
         return this->binded;
+    }
+
+    address connection::get_binded_address() const {
+        return this->binded_address;
     }
 }
