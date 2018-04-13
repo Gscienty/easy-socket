@@ -15,16 +15,17 @@ int main() {
     epoller.reg(r2, eys::epoll_event_readable);
 
     while(true) {
-        size_t waiting_count = epoller.await(-1);
+        size_t waiting_count = epoller.await();
         if (waiting_count == 0) {
             continue;
         }
 
         while(waiting_count--) {
             eys::udp_receiver &r = epoller.take();
-            
             int a;
-            r >> a;
+            eys::udp_visitor visitor = r.get_visitor();
+            
+            visitor >> a;
             std::cout << a << std::endl;
         }
     }

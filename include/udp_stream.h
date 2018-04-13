@@ -13,10 +13,10 @@ namespace eys {
     public:
         udp_stream();
 
-        udp_receiver in(address addr);
-        udp_receiver in(address addr, size_t reveiver_buffer_size);
+        udp_receiver receive(address addr);
+        udp_receiver receive(address addr, size_t reveiver_buffer_size);
 
-        udp_sender out(address addr);
+        udp_sender send(address addr);
     };
 }
 
