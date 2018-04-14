@@ -27,7 +27,7 @@ void test() {
             eys::udp_doorman &r = epoller.take();
             int a;
             eys::udp_visitor visitor = r.get_visitor();
-            
+            visitor.receive();
             visitor >> a;
             std::cout << visitor.get_fd() << ':' << a << std::endl;
         }

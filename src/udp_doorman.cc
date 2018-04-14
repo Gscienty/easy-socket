@@ -16,13 +16,6 @@ namespace eys {
     }
 
     udp_visitor udp_doorman::get_visitor(size_t buffer_size) {
-        char *buffer = new char(buffer_size);
-
-        sockaddr_in remote_addr;
-        socklen_t len = sizeof(sockaddr_in);
-        size_t data_size = recvfrom(
-            this->conn->get_fd(), buffer, buffer_size, 0, (sockaddr *) &remote_addr, &len);
-        
-        return udp_visitor(local, address(remote_addr), this->conn, buffer, data_size);
+        return udp_visitor(local, this->conn, buffer_size);
     }
 }

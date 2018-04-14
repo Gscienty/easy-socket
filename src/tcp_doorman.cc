@@ -3,11 +3,11 @@
 #include <memory>
 
 namespace eys {
-    tcp_doorman::tcp_doorman(address local, size_t buffer_size)
+    tcp_doorman::tcp_doorman(address local, int backlog)
         : conn(std::make_shared<connection>(*(new connection(connection_type::conn_type_tcp))))
-        , local(local)
-        , default_buffer_size(buffer_size) {
+        , local(local) {
         this->conn->bind_address(local);
+        this->watch(backlog);
     }
     
     std::shared_ptr<connection> tcp_doorman::get_connection() const {
@@ -21,9 +21,6 @@ namespace eys {
     int tcp_doorman::get_fd() const {
         return this->conn->get_fd();
     }
-
-    tcp_visitor tcp_doorman::get_visitor() { return this->get_visitor(this->default_buffer_size); }
-
 
     tcp_visitor tcp_doorman::get_visitor(size_t buffer_size) {
         sockaddr_in remote_addr;

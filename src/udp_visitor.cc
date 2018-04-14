@@ -1,14 +1,13 @@
 #include "udp_visitor.h"
 
 namespace eys {
-    udp_visitor::udp_visitor(address local, address remote, std::shared_ptr<connection> &conn, const char *buffer, const size_t buffer_size)
+    udp_visitor::udp_visitor(address local, std::shared_ptr<connection> &conn, size_t buffer_size)
         : local(local)
-        , buffer(const_cast<char *>(buffer))
-        , remote(remote)
+        , buffer(new char(buffer_size))
         , buffer_size(buffer_size)
+        , data_size(0)
         , seek(0)
-        , conn(conn) {
-    }
+        , conn(conn) { }
 
     udp_visitor &udp_visitor::operator>> (address &addr) {
         addr = remote;
@@ -25,5 +24,15 @@ namespace eys {
 
     int udp_visitor::get_fd() const {
         return this->conn->get_fd();
+    }
+
+    udp_visitor &udp_visitor::receive(int flags) {
+        sockaddr_in remote_addr;
+        socklen_t len = sizeof(sockaddr_in);
+        this->data_size = recvfrom(
+            this->conn->get_fd(), this->buffer.get(), buffer_size, flags, (sockaddr *) &remote_addr, &len);
+        
+        this->remote = address(remote_addr);
+        return *this;
     }
 }

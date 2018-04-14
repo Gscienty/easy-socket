@@ -11,15 +11,13 @@ namespace eys {
     private:
         std::shared_ptr<connection> conn;
         address local;
-        size_t default_buffer_size;
     public:
-        tcp_doorman(address local, size_t buffer_size = 1024);
+        tcp_doorman(address local, int backlog = 20);
 
         std::shared_ptr<connection> get_connection() const;
         bool watch(int backlog = 20);
         int get_fd() const;
-        tcp_visitor get_visitor();
-        tcp_visitor get_visitor(size_t buffer_size);
+        tcp_visitor get_visitor(size_t buffer_size = 1024);
     };
 }
 

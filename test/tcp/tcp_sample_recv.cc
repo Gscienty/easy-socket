@@ -1,12 +1,12 @@
-#include "tcp_receiver.h"
+#include "tcp_doorman.h"
 #include "address.h"
 #include <iostream>
 
 int main() {
-    eys::tcp_receiver r(eys::address("0.0.0.0", 1234), 1024);
-    r.watch();
+    eys::tcp_doorman r(eys::address("0.0.0.0", 1234));
 
     eys::tcp_visitor v = r.get_visitor();
+    v.receive();
     int val;
     v >> val;
 
