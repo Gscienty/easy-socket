@@ -9,11 +9,6 @@
 #include <sys/types.h>
 
 namespace eys {
-    const int message_out_of_band = MSG_OOB;
-    const int message_peek = MSG_PEEK;
-    const int message_wait_all = MSG_WAITALL;
-    const int message_dont_wait = MSG_DONTWAIT;
-    const int message_dont_route = MSG_DONTROUTE;
     
     class tcp_visitor {
     private:

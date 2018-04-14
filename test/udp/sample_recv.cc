@@ -18,19 +18,13 @@ void test() {
 
     int i = 100;
     while(i--) {
-        size_t waiting_count = epoller.await();
-        if (waiting_count == 0) {
-            continue;
-        }
-
-        while(waiting_count--) {
-            eys::udp_doorman &r = epoller.take();
-            int a;
-            eys::udp_visitor visitor = r.get_visitor();
-            visitor.receive();
-            visitor >> a;
-            std::cout << visitor.get_fd() << ':' << a << std::endl;
-        }
+        epoller.await([](eys::udp_doorman &r) -> void {
+            int val;
+            eys::udp_visitor v = r.get_visitor();
+            v.receive();
+            v >> val;
+            std::cout << val << std::endl;
+        });
     }
 }
 

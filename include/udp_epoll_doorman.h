@@ -3,17 +3,11 @@
 
 #include "udp_visitor.h"
 #include "udp_doorman.h"
-#include <map>
+#include "define.h"
 #include <sys/epoll.h>
+#include <memory>
 
 namespace eys {
-
-    const int epoll_event_readable = EPOLLIN;
-    const int epoll_event_writable = EPOLLOUT;
-    const int epoll_event_primary = EPOLLPRI;
-    const int epoll_event_error = EPOLLERR;
-    const int epoll_event_edge_triggered = EPOLLET;
-    const int epoll_event_one_shot = EPOLLONESHOT;
 
     class udp_epoll_doorman {
     private:
@@ -21,7 +15,7 @@ namespace eys {
 
         const size_t fd_count;
         size_t waiting_fds_count;
-        epoll_event *active_events;
+        std::unique_ptr<epoll_event> active_events;
     public:
         udp_epoll_doorman(size_t size);
         ~udp_epoll_doorman();
@@ -32,9 +26,7 @@ namespace eys {
         void clear_waiting();
         bool none_waiting() const;
 
-        size_t await(int timeout = -1);
-
-        udp_doorman &take();
+        void await(void (*func)(udp_doorman &), int timeout = -1);
     };
 }
 

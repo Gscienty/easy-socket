@@ -2,12 +2,9 @@
 #define _EYS_SOCKET_
 
 #include "address.h"
+#include "define.h"
 
 namespace eys {
-    enum connection_type {
-        conn_type_udp,
-        conn_type_tcp
-    };
 
     class connection {
     private:
