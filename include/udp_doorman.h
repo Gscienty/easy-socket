@@ -5,12 +5,10 @@
 #include "base_fd.h"
 #include "connection.h"
 #include "udp_visitor.h"
-#include <memory>
 
 namespace eys {
     class udp_doorman : public base_fd {
     private:
-        std::shared_ptr<connection> conn;
         address local;
     public:
         udp_doorman(address local);

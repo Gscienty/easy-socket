@@ -4,12 +4,10 @@
 #include "address.h"
 #include "base_fd.h"
 #include "tcp_visitor.h"
-#include <memory>
 
 namespace eys {
     class tcp_doorman : public base_fd {
     private:
-        std::shared_ptr<connection> conn;
         address local;
     public:
         tcp_doorman(address local, int backlog = 20);

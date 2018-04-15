@@ -4,12 +4,10 @@
 #include "address.h"
 #include "base_fd.h"
 #include "serializer.h"
-#include <memory>
 
 namespace eys {
     class tcp_sender : public base_fd {
     private:
-        std::shared_ptr<connection> conn;
         address remote;
     public:
         tcp_sender(address remote);
