@@ -7,7 +7,7 @@ namespace eys {
         , buffer_size(buffer_size)
         , data_size(0)
         , seek(0)
-        , conn(conn) { }
+        , base_fd(conn) { }
 
     udp_visitor &udp_visitor::operator>> (address &addr) {
         addr = remote;

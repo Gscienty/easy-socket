@@ -5,7 +5,7 @@
 namespace eys {
 
     tcp_sender::tcp_sender(address remote)
-        : conn(std::make_shared<connection>(* (new connection(connection_type::conn_type_tcp))))
+        : base_fd(std::make_shared<connection>(* (new connection(connection_type::conn_type_tcp))))
         , remote(remote) {
         this->conn->bind_address(remote);
 
@@ -15,6 +15,6 @@ namespace eys {
 
 
     tcp_sender::tcp_sender(std::shared_ptr<connection> conn)
-        : conn(conn)
+        : base_fd(conn)
         , remote(conn->get_binded_address()) { }
 }

@@ -1,5 +1,5 @@
-#ifndef _EYS_TCP_EPOLL_DOORMAN_
-#define _EYS_TCP_EPOLL_DOORMAN_
+#ifndef _EYS_TCP_EPOLL_
+#define _EYS_TCP_EPOLL_
 
 #include "tcp_visitor.h"
 #include "tcp_doorman.h"
@@ -13,7 +13,7 @@ namespace eys {
         tcp_type_visitor
     };
 
-    class tcp_epoll_doorman {
+    class tcp_epoll {
     private:
         int epoll_fd;
 
@@ -21,8 +21,8 @@ namespace eys {
         size_t waiting_fds_count;
         std::unique_ptr<epoll_event> active_events;
     public:
-        tcp_epoll_doorman(size_t size);
-        ~tcp_epoll_doorman();
+        tcp_epoll(size_t size);
+        ~tcp_epoll();
 
         bool reg(tcp_doorman &doorman, int types);
         void unreg(tcp_doorman &doorman);
@@ -33,7 +33,7 @@ namespace eys {
         void clean_waiting();
         bool none_waiting() const;
 
-        size_t await(void (*doorman_func)(tcp_doorman &), void (*visitor_func)(tcp_visitor &), int timeout = -1);
+        void await(void (*doorman_func)(tcp_doorman &, int events), void (*visitor_func)(tcp_visitor &, int events), int timeout = -1);
     };
 }
 

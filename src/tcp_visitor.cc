@@ -4,7 +4,7 @@
 namespace eys {
     tcp_visitor::tcp_visitor(address local, address remote, std::shared_ptr<connection> &conn, const size_t buffer_size)
         : buffer(new char(buffer_size))
-        , conn(conn)
+        , base_fd(conn)
         , local(local)
         , remote(remote)
         , buffer_size(buffer_size)
@@ -18,10 +18,6 @@ namespace eys {
 
     size_t tcp_visitor::remainder() const {
         return this->buffer_size - this->seek;
-    }
-
-    int tcp_visitor::get_fd() const {
-        return this->conn->get_fd();
     }
     
     tcp_visitor &tcp_visitor::receive(int flags) {

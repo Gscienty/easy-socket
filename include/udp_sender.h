@@ -2,24 +2,25 @@
 #define _EYS_UDP_SENDER_
 
 #include "address.h"
-#include "connection.h"
+#include "base_fd.h"
 #include "serializer.h"
 #include <vector>
 #include <memory>
 
 namespace eys {
-    class udp_sender {
+    class udp_sender : public base_fd {
     private:
-        std::shared_ptr<connection> conn;
         address remote;
     public:
         udp_sender(address remote)
-            : conn(std::make_shared<connection>(* (new connection(connection_type::conn_type_udp))))
+            : base_fd(std::make_shared<connection>(* (new connection(connection_type::conn_type_udp))))
             , remote(remote) { }
         
         udp_sender(std::shared_ptr<connection> conn)
             : conn(conn)
             , remote(conn->get_binded_address()) { }
+
+        fd_type get_fd_type() const { return fd_type::fd_type_udp_sender; }
 
         template <typename E = char, typename OP_serializer = serializer<E> >
         udp_sender &operator<< (E e) {

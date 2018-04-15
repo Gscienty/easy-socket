@@ -1,5 +1,5 @@
-#ifndef _EYS_UDP_EPOLL_DOORMAN_
-#define _EYS_UDP_EPOLL_DOORMAN_
+#ifndef _EYS_UDP_EPOLL_
+#define _EYS_UDP_EPOLL_
 
 #include "udp_visitor.h"
 #include "udp_doorman.h"
@@ -9,7 +9,7 @@
 
 namespace eys {
 
-    class udp_epoll_doorman {
+    class udp_epoll {
     private:
         int epoll_fd;
 
@@ -17,8 +17,8 @@ namespace eys {
         size_t waiting_fds_count;
         std::unique_ptr<epoll_event> active_events;
     public:
-        udp_epoll_doorman(size_t size);
-        ~udp_epoll_doorman();
+        udp_epoll(size_t size);
+        ~udp_epoll();
 
         bool reg(udp_doorman &doorman, int types);
         void unreg(udp_doorman &doorman);
@@ -26,7 +26,7 @@ namespace eys {
         void clear_waiting();
         bool none_waiting() const;
 
-        void await(void (*func)(udp_doorman &), int timeout = -1);
+        void await(void (*func)(udp_doorman &, int events), int timeout = -1);
     };
 }
 

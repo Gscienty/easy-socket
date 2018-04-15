@@ -10,6 +10,15 @@ namespace eys {
         conn_type_tcp
     };
 
+    enum fd_type {
+        fd_type_tcp_doorman,
+        fd_type_tcp_sender,
+        fd_type_tcp_visitor,
+        fd_type_udp_doorman,
+        fd_type_udp_sender,
+        fd_type_udp_visitor
+    };
+
     const int message_out_of_band = MSG_OOB;
     const int message_peek = MSG_PEEK;
     const int message_wait_all = MSG_WAITALL;

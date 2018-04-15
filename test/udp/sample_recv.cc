@@ -18,7 +18,7 @@ void test() {
 
     int i = 100;
     while(i--) {
-        epoller.await([](eys::udp_doorman &r) -> void {
+        epoller.await([](eys::udp_doorman &r, int types) -> void {
             int val;
             eys::udp_visitor v = r.get_visitor();
             v.receive();

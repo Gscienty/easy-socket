@@ -4,22 +4,14 @@
 
 namespace eys {
     tcp_doorman::tcp_doorman(address local, int backlog)
-        : conn(std::make_shared<connection>(*(new connection(connection_type::conn_type_tcp))))
+        : base_fd(std::make_shared<connection>(*(new connection(connection_type::conn_type_tcp))))
         , local(local) {
-        this->conn->bind_address(local);
+        this->get_connection()->bind_address(local);
         this->watch(backlog);
-    }
-    
-    std::shared_ptr<connection> tcp_doorman::get_connection() const {
-        return this->conn;
     }
 
     bool tcp_doorman::watch(int backlog) {
         return listen(this->conn->get_fd(), backlog) == 0;
-    }
-
-    int tcp_doorman::get_fd() const {
-        return this->conn->get_fd();
     }
 
     tcp_visitor tcp_doorman::get_visitor(size_t buffer_size) {
