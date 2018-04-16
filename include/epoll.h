@@ -26,15 +26,15 @@ namespace eys {
     public:
         epoll(size_t size);
 
-        template<class T>
-        bool attention(T &f, const int &events, std::function<void(T &, int)> func) {
+        template<class T, class F>
+        bool attention(T &f, const int &events, F func) {
             this->fds.insert(
                 std::pair<int, epoll_event_struct>(f.get_fd(), {
                     f.get_fd(),
                     reinterpret_cast<base_fd *>(&f),
                     reinterpret_cast<void *>(&func),
                     [] (base_fd *base, void *callback, int events) -> void {
-                        (*reinterpret_cast<std::function<void(T &, int &)> *>(callback))(*reinterpret_cast<T *>(base), events);
+                        (*reinterpret_cast<F *>(callback))(*reinterpret_cast<T *>(base), events);
                     }
                 })
             );

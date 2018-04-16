@@ -12,13 +12,12 @@ void test() {
 
     eys::udp_doorman doorman(eys::address("0.0.0.0", 1234));
 
-    std::function<void(eys::udp_doorman &, int)> func = [] (eys::udp_doorman &d, int events) -> void {
-        eys::udp_visitor v = d.get_visitor();
-        int val;
-        v.receive() >> val;
-        std::cout << val << std::endl;
-    };
-    epoller.attention(doorman, eys::epoll_event_readable, func);
+    epoller.attention(doorman, eys::epoll_event_readable, [] (eys::udp_doorman &d, int events) -> void {
+            eys::udp_visitor v = d.get_visitor();
+            int val;
+            v.receive() >> val;
+            std::cout << val << std::endl;
+        });
 
     while (true) epoller.await();
 }
