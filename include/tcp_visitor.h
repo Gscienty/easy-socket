@@ -19,6 +19,14 @@ namespace eys {
 
         fd_type get_fd_type() const { return fd_type::fd_type_tcp_visitor; }
         
+        template <typename E = char, typename OP_deserializer = deserializer<E> >
+        in_buffer &operator>> (E &e) {
+            if (this->seek >= this->buffer_size) {
+                return (*this);
+            }
+            e = OP_deserializer::deserialize(this->buffer.get(), this->data_size, this->seek);
+            return (*this);
+        }
         tcp_visitor &operator>> (address &addr);
         tcp_sender send();
         in_buffer &receive(int flags = 0);

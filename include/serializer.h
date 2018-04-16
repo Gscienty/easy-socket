@@ -103,8 +103,8 @@ namespace eys {
     template <>
     struct serializer<std::string> {
         static std::unique_ptr<char> serialize(std::string str, size_t &size) {
-            size = str.length();
-            std::unique_ptr<char> buffer(new char(size));
+            size = str.length() + 1;
+            std::unique_ptr<char> buffer(new char[size]);
             std::uninitialized_copy(str.begin(), str.end(), buffer.get());
             return buffer;
         }
