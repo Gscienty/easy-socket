@@ -20,7 +20,7 @@ namespace eys {
             size_t size;
             std::unique_ptr<char> bytes = OP_serializer::serialize(e, size);
             sockaddr_in addr = this->remote.get();
-            send(this->conn->get_fd(), bytes.get(), size, 0);
+            send(this->conn->get_fd(), bytes.get(), size + 1, 0);
             return (*this);
         }
     };

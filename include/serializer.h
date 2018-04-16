@@ -6,6 +6,8 @@
 #include <cstring>
 #include <memory>
 
+#include <iostream>
+
 namespace eys {
 
     template <typename E>
@@ -105,6 +107,7 @@ namespace eys {
         static std::unique_ptr<char> serialize(std::string str, size_t &size) {
             size = str.length() + 1;
             std::unique_ptr<char> buffer(new char[size]);
+            buffer.get()[size - 1] = 0;
             std::uninitialized_copy(str.begin(), str.end(), buffer.get());
             return buffer;
         }
@@ -113,8 +116,8 @@ namespace eys {
     template <>
     struct serializer<const char *> {
         static std::unique_ptr<char> serialize(const char *str,  size_t &size) {
-            size = strlen(str);
-            std::unique_ptr<char> buffer(new char(size));
+            size = strlen(str) + 1;
+            std::unique_ptr<char> buffer(new char[size]);
             std::uninitialized_copy(str, str + size, buffer.get());
             return buffer;
         }
