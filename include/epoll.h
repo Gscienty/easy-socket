@@ -27,7 +27,7 @@ namespace eys {
         epoll(size_t size);
 
         template<class T, class F>
-        bool attention(T &f, const int &events, F func) {
+        bool attention(T &f, const int &events, F &&func) {
             this->fds.insert(
                 std::pair<int, epoll_event_struct>(f.get_fd(), {
                     f.get_fd(),
