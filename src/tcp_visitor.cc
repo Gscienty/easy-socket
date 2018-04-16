@@ -13,7 +13,7 @@ namespace eys {
         return (*this);
     }
     
-    void tcp_visitor::receive(int flags) {
+    in_buffer &tcp_visitor::receive(int flags) {
         this->data_size = recv(this->conn->get_fd(), this->buffer.get(), this->buffer_size, flags);
         return *this;
     }

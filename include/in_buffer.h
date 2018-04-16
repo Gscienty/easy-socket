@@ -6,7 +6,7 @@
 
 namespace eys {
     class in_buffer {
-    private:
+    protected:
         std::unique_ptr<char> buffer;
         size_t buffer_size;
         size_t data_size;
@@ -25,7 +25,7 @@ namespace eys {
         }
 
         size_t remain() const;
-        virtual void receive(int flags = 0) = 0;
+        virtual in_buffer &receive(int flags = 0) = 0;
     };
 }
 

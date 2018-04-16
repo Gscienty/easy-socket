@@ -4,7 +4,7 @@
 
 namespace eys {
     tcp_doorman::tcp_doorman(address local, int backlog)
-        : base_fd(std::make_shared<connection>(*(new connection(connection_type::conn_type_tcp))))
+        : base_fd(std::make_shared<connection>(* (new connection(connection_type::conn_type_tcp))))
         , local(local) {
         this->get_connection()->bind_address(local);
         this->watch(backlog);

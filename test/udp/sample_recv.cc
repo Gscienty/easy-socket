@@ -1,5 +1,5 @@
 #include "udp_stream.h"
-#include "udp_epoll_doorman.h"
+#include "epoll.h"
 #include "address.h"
 #include <iostream>
 #include <string>
@@ -8,24 +8,19 @@
 #include <utility>
 
 void test() {
-    eys::udp_epoll_doorman epoller(200);
+    eys::epoll epoller(200);
 
-    eys::udp_doorman r1(eys::address("0.0.0.0", 1234));
-    eys::udp_doorman r2(eys::address("0.0.0.0", 1234));
+    eys::udp_doorman doorman(eys::address("0.0.0.0", 1234));
 
-    epoller.reg(r1, eys::epoll_event_readable);
-    epoller.reg(r2, eys::epoll_event_readable);
+    std::function<void(eys::udp_doorman &, int)> func = [] (eys::udp_doorman &d, int events) -> void {
+        eys::udp_visitor v = d.get_visitor();
+        int val;
+        v.receive() >> val;
+        std::cout << val << std::endl;
+    };
+    epoller.attention(doorman, eys::epoll_event_readable, func);
 
-    int i = 100;
-    while(i--) {
-        epoller.await([](eys::udp_doorman &r, int types) -> void {
-            int val;
-            eys::udp_visitor v = r.get_visitor();
-            v.receive();
-            v >> val;
-            std::cout << val << std::endl;
-        });
-    }
+    while (true) epoller.await();
 }
 
 int main() {

@@ -17,9 +17,19 @@ namespace eys {
         udp_visitor(address local, std::shared_ptr<connection> &conn, size_t buffer_size);
         
         fd_type get_fd_type() const { return fd_type::fd_type_udp_visitor; }
+
+        template <typename E = char, typename OP_deserializer = deserializer<E> >
+        in_buffer &operator>> (E &e) {
+            if (this->seek >= this->buffer_size) {
+                return (*this);
+            }
+            e = OP_deserializer::deserialize(this->buffer.get(), this->buffer_size, this->seek);
+            return (*this);
+        }
+
         udp_visitor &operator>> (address &addr);
         udp_sender send();
-        void receive(int flags = 0);
+        in_buffer &receive(int flags = 0);
     };
 }
 

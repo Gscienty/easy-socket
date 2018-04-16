@@ -17,7 +17,7 @@ namespace eys {
             , remote(remote) { }
         
         udp_sender(std::shared_ptr<connection> conn)
-            : conn(conn)
+            : base_fd(conn)
             , remote(conn->get_binded_address()) { }
 
         fd_type get_fd_type() const { return fd_type::fd_type_udp_sender; }

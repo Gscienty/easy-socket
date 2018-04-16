@@ -21,7 +21,7 @@ namespace eys {
         
         tcp_visitor &operator>> (address &addr);
         tcp_sender send();
-        void receive(int flags = 0);
+        in_buffer &receive(int flags = 0);
     };
 }
 

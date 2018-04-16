@@ -3,6 +3,7 @@
 
 #include <sys/types.h>
 #include <sys/epoll.h>
+#include <sys/socket.h>
 
 namespace eys {
     enum connection_type {
