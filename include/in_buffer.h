@@ -25,7 +25,7 @@ namespace eys {
         }
 
         size_t remain() const;
-        virtual in_buffer &receive(int flags = 0) = 0;
+        virtual size_t receive(int flags = 0) = 0;
     };
 }
 

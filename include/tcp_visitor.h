@@ -29,7 +29,7 @@ namespace eys {
         }
         tcp_visitor &operator>> (address &addr);
         tcp_sender send();
-        in_buffer &receive(int flags = 0);
+        size_t receive(int flags = 0);
     };
 }
 

@@ -29,7 +29,7 @@ namespace eys {
 
         udp_visitor &operator>> (address &addr);
         udp_sender send();
-        in_buffer &receive(int flags = 0);
+        size_t receive(int flags = 0);
     };
 }
 

@@ -13,9 +13,9 @@ namespace eys {
         return (*this);
     }
     
-    in_buffer &tcp_visitor::receive(int flags) {
+    size_t tcp_visitor::receive(int flags) {
         this->data_size = recv(this->conn->get_fd(), this->buffer.get(), this->buffer_size, flags);
-        return *this;
+        return this->data_size;
     }
 
     tcp_sender tcp_visitor::send() {

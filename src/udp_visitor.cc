@@ -15,13 +15,13 @@ namespace eys {
         return udp_sender(this->conn);
     }
 
-    in_buffer &udp_visitor::receive(int flags) {
+    size_t udp_visitor::receive(int flags) {
         sockaddr_in remote_addr;
         socklen_t len = sizeof(sockaddr_in);
         this->data_size = recvfrom(
             this->conn->get_fd(), this->buffer.get(), this->buffer_size, flags, (sockaddr *) &remote_addr, &len);
         
         this->remote = address(remote_addr);
-        return *this;
+        return this->data_size;
     }
 }
