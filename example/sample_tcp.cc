@@ -9,6 +9,9 @@ int main() {
         eys::tcp_sender s(eys::address("127.0.0.1", 1234));
 
         std::string msg = "Hello World";
+        for(int i = 0; i < 10; i++) {
+            msg += msg;
+        }
         s << msg;
 
         std::cout << "sender: sent seg \"Hello World\"" << std::endl;
@@ -17,7 +20,7 @@ int main() {
     std::thread tcp_receiver([] () -> void {
         eys::tcp_doorman d(eys::address("0.0.0.0", 1234));
         d.watch();
-        eys::tcp_visitor v = d.get_visitor(65536);
+        eys::tcp_visitor v = d.get_visitor(1024);
         
         v.receive();
         std::string seg;

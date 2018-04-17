@@ -24,6 +24,11 @@ namespace eys {
         , binded_address(addr)
         , fd(fd) { }
 
+    connection::connection(const connection &conn)
+        : binded(conn.binded)
+        , binded_address(conn.binded_address)
+        , fd(conn.fd) { }
+
     connection::~connection() {
         close(this->fd);
     }
@@ -38,9 +43,9 @@ namespace eys {
         }
 
         sockaddr_in addr = local.get();
-        int isSuccess = bind(this->fd, (sockaddr *) &addr, sizeof(sockaddr_in));
+        int success_code = bind(this->fd, (sockaddr *) &addr, sizeof(sockaddr_in));
+        this->binded = success_code == 0;
         this->binded_address = local;
-        this->binded = isSuccess == 0;
         return this->binded;
     }
 

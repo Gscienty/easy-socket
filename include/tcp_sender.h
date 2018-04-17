@@ -12,6 +12,9 @@ namespace eys {
     public:
         tcp_sender(address remote);
         tcp_sender(std::shared_ptr<connection> conn);
+        tcp_sender(tcp_sender &&sender)
+            : base_fd(sender)
+            , remote(sender.remote) { }
 
         fd_type get_fd_type() const { return fd_type::fd_type_tcp_sender; }
 

@@ -14,8 +14,9 @@ namespace eys {
         address remote;
 
     public:
-        udp_visitor(address local, std::shared_ptr<connection> &conn, size_t buffer_size);
-        
+        udp_visitor(address local, std::shared_ptr<connection> conn, size_t buffer_size);
+        udp_visitor(udp_visitor &&);
+
         fd_type get_fd_type() const { return fd_type::fd_type_udp_visitor; }
 
         template <typename E = char, typename OP_deserializer = deserializer<E> >

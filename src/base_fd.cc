@@ -4,6 +4,9 @@ namespace eys {
     base_fd::base_fd(std::shared_ptr<connection> conn)
         : conn(conn) { }
 
+    base_fd::base_fd(base_fd &)
+        : conn(conn) { }
+
     std::shared_ptr<connection> base_fd::get_connection() const {
         return this->conn;
     }

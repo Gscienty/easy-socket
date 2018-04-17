@@ -1,14 +1,15 @@
 #include "tcp_doorman.h"
 #include <sys/socket.h>
 #include <memory>
+#include <errno.h>
 
 namespace eys {
     tcp_doorman::tcp_doorman(address local, int backlog)
         : base_fd(std::make_shared<connection>(* (new connection(connection_type::conn_type_tcp))))
         , local(local) {
-        if (this->get_connection()->bind_address(local)) {
-            throw;
-        };
+        if (this->get_connection()->bind_address(local) == false) {
+            perror(strerror(errno));
+        }
         this->watch(backlog);
     }
 

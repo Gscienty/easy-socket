@@ -26,7 +26,7 @@ namespace eys {
         while(waiting_fds_count--) {
             epoll_event event = this->active_events.get()[waiting_fds_count];
             epoll_event_struct &event_struct = *reinterpret_cast<epoll_event_struct *>(event.data.ptr);
-            event_struct.func(event_struct.ptr, event_struct.callback, event.events);
+            event_struct.func(event_struct.callback, event_struct.ptr, event.events);
         }
     }
 }

@@ -20,6 +20,10 @@ namespace eys {
             : base_fd(conn)
             , remote(conn->get_binded_address()) { }
 
+        udp_sender(udp_sender &&sender)
+            : base_fd (sender)
+            ,remote(sender.remote) { }
+
         fd_type get_fd_type() const { return fd_type::fd_type_udp_sender; }
 
         template <typename E = char, typename OP_serializer = serializer<E> >

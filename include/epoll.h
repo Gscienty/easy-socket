@@ -10,9 +10,9 @@
 namespace eys {
     struct epoll_event_struct {
         int fd;
-        base_fd *ptr;
+        void *ptr;
         void *callback;
-        void (*func) (base_fd *fd, void *callback, int events);
+        void (*func) (void *callback, void *fd, int events);
     };
 
     class epoll {
@@ -31,9 +31,9 @@ namespace eys {
             this->fds.insert(
                 std::pair<int, epoll_event_struct>(f.get_fd(), {
                     f.get_fd(),
-                    reinterpret_cast<base_fd *>(&f),
+                    reinterpret_cast<void *>(&f),
                     reinterpret_cast<void *>(&func),
-                    [] (base_fd *base, void *callback, int events) -> void {
+                    [] (void *callback, void *base, int events) -> void {
                         (*reinterpret_cast<F *>(callback))(*reinterpret_cast<T *>(base), events);
                     }
                 })
