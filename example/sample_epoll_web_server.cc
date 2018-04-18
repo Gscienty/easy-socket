@@ -13,8 +13,7 @@ int main() {
     });
 
     epoller.attention(server, eys::epoll_event_readable, [&] (eys::tcp_doorman s, int events) -> void {
-        eys::tcp_visitor v = s.get_visitor();
-        epoller.attention(v, eys::epoll_event_readable, [] (eys::tcp_visitor c, int events) -> void {
+        epoller.attention(s.get_visitor(), eys::epoll_event_readable, [] (eys::tcp_visitor c, int events) -> void {
             c.receive();
             std::string seg;
             c >> seg;
