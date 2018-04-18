@@ -12,7 +12,10 @@ namespace eys {
     public:
         base_fd(std::shared_ptr<connection> conn);
         base_fd(base_fd &);
-        
+
+        bool setNonBlock();
+        bool setAsync();
+
         virtual fd_type get_fd_type() const = 0;
         std::shared_ptr<connection> get_connection() const;
         int get_fd() const;

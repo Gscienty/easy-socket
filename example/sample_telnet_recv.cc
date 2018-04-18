@@ -20,7 +20,7 @@ int main() {
             );
         }
     );
-
-    while (50) epoller.await();
+    int i = 50;
+    while (i--) epoller.await();
     return 0;
 }
