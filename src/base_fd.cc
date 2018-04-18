@@ -8,11 +8,11 @@ namespace eys {
     base_fd::base_fd(base_fd &fd)
         : conn(fd.conn) { }
 
-    bool base_fd::setNonBlock() {
+    bool base_fd::set_non_block() {
         return fcntl(this->conn->get_fd(), F_SETFD, O_NONBLOCK) == 0;
     }
 
-    bool base_fd::setAsync() {
+    bool base_fd::set_async() {
         return fcntl(this->conn->get_fd(), F_SETFD, O_ASYNC) == 0;
     }
 
