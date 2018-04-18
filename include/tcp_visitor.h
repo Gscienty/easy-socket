@@ -8,8 +8,6 @@
 #include "tcp_sender.h"
 #include <sys/types.h>
 
-#include <iostream>
-
 namespace eys {
     
     class tcp_visitor : public base_fd, public in_buffer {

@@ -11,6 +11,7 @@ namespace eys {
         address local;
     public:
         tcp_doorman(address local, int backlog = 20);
+        tcp_doorman(tcp_doorman &doorman);
 
         fd_type get_fd_type() const { return fd_type::fd_type_tcp_doorman; }
 

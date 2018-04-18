@@ -13,6 +13,10 @@ namespace eys {
         this->watch(backlog);
     }
 
+    tcp_doorman::tcp_doorman(tcp_doorman &doorman)
+        : base_fd(doorman)
+        , local(doorman.local) { }
+
     bool tcp_doorman::watch(int backlog) {
         return listen(this->conn->get_fd(), backlog) == 0;
     }
@@ -25,6 +29,6 @@ namespace eys {
         std::shared_ptr<connection> remote_conn = std::make_shared<connection>(
                 *(new connection(connection_type::conn_type_tcp, address(remote_addr), remote_fd)));
 
-        return tcp_visitor(this->local, address(remote_addr), remote_conn, buffer_size);
+        return std::move(tcp_visitor(this->local, address(remote_addr), remote_conn, buffer_size));
     }
 }

@@ -4,8 +4,6 @@
 #include <vector>
 #include <string>
 
-#include <iostream>
-
 namespace eys {
     template <typename E>
     struct deserializer { static E deserialize(const char *buffer, size_t len, ssize_t &seek); };

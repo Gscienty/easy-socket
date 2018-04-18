@@ -1,7 +1,6 @@
 #include "tcp_visitor.h"
 #include <sys/socket.h>
 #include <errno.h>
-#include <iostream>
 
 namespace eys {
     tcp_visitor::tcp_visitor(address local, address remote, std::shared_ptr<connection> &conn, const size_t buffer_size)
@@ -11,10 +10,10 @@ namespace eys {
         , remote(remote){ }
 
     tcp_visitor::tcp_visitor(const tcp_visitor &visitor)
-        : in_buffer(static_cast<in_buffer>(visitor))
+        : in_buffer(visitor)
         , base_fd(visitor.conn)
         , local(visitor.local)
-        , remote(visitor.remote) { std::cout << visitor.get_fd() << std::endl; }
+        , remote(visitor.remote) { }
     
     tcp_visitor &tcp_visitor::operator>> (address &addr) {
         addr = remote;

@@ -22,11 +22,10 @@ namespace eys {
     void epoll::await(int timeout) {
         size_t waiting_fds_count = epoll_wait(
             this->epoll_fd, this->active_events.get(), this->fd_count, timeout);
-        
         while(waiting_fds_count--) {
             epoll_event event = this->active_events.get()[waiting_fds_count];
-            epoll_event_struct &event_struct = *reinterpret_cast<epoll_event_struct *>(event.data.ptr);
-            event_struct.func(event_struct.callback, event_struct.ptr, event.events);
+            epoll_event_struct *event_struct = reinterpret_cast<epoll_event_struct *>(event.data.ptr);
+            event_struct->func(event_struct->callback, event_struct, event.events);
         }
     }
 }
