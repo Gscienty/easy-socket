@@ -21,6 +21,11 @@ namespace eys {
 
         template <typename E = char, typename OP_deserializer = deserializer<E> >
         in_buffer &operator>> (E &e) {
+            return this->get(e);
+        }
+
+        template <typename E = char, typename OP_deserializer = deserializer<E> >
+        in_buffer &get(E &e) {
             if (this->seek >= this->buffer_size) {
                 return (*this);
             }

@@ -23,9 +23,18 @@ namespace eys {
         
         template <typename E = char, typename OP_deserializer = deserializer<E> >
         in_buffer &operator>> (E &e) {
-            e = OP_deserializer::deserialize(this->buffer.get(), this->data_size, this->seek);
+            return this->get(e);
+        }
+
+        template <typename E = char, typename OP_deserializer = deserializer<E> >
+        in_buffer &get(E &e) {
+            if (this->seek >= this->buffer_size) {
+                return (*this);
+            }
+            e = OP_deserializer::deserialize(this->buffer.get(), this->buffer_size, this->seek);
             return (*this);
         }
+
         tcp_visitor &operator>> (address &addr);
         tcp_sender send();
         size_t receive(int flags = 0);
