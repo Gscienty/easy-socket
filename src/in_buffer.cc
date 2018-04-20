@@ -1,4 +1,6 @@
 #include "in_buffer.h"
+#include <algorithm>
+#include <memory>
 
 namespace eys {
     in_buffer::in_buffer(size_t buffer_size)
@@ -9,5 +11,17 @@ namespace eys {
 
     size_t in_buffer::remain() const {
         return this->data_size - this->seek;
+    }
+
+    std::pair<char *, size_t> in_buffer::get_range(size_t size) {
+        size_t truth_size = std::min<size_t>(size, this->remain());
+        char *buffer;
+
+        std::tie<char *, size_t>(buffer, truth_size) = std::get_temporary_buffer<char *>(truth_size);
+        std::uninitialized_copy_n(this->buffer.get() + this->seek, truth_size, buffer);
+        this->seek += truth_size;
+        std::return_temporary_buffer<char>(buffer);
+
+        return std::pair<char *, size_t>(buffer, truth_size);
     }
 }

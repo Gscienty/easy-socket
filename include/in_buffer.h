@@ -2,6 +2,7 @@
 #define _EYS_IN_BUFFER_
 
 #include "deserializer.h"
+#include <utility>
 #include <memory>
 
 namespace eys {
@@ -28,6 +29,8 @@ namespace eys {
             e = OP_deserializer::deserialize(this->buffer.get(), this->buffer_size, this->seek);
             return (*this);
         }
+
+        std::pair<char *, size_t> get_range(size_t size);
 
         size_t remain() const;
     };
