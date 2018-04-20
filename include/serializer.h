@@ -53,7 +53,7 @@ namespace eys {
 
     template <>
     struct serializer<unsigned short> {
-        static char *serialize(unsigned char e, size_t &size) {
+        static char *serialize(unsigned short e, size_t &size) {
             size = sizeof(e);
             char *buffer(new char(size));
             value_type_serializer<unsigned short>::serialize(buffer, e);
