@@ -14,7 +14,7 @@ namespace eys {
 
     template <typename T>
     struct value_type_serializer {
-        static void serialize(const char *v, T e) {
+        static void serialize(char *v, T e) {
             for (size_t i = 0; i < sizeof(T); i++) {
                 v[i] = reinterpret_cast<char *>(&e)[sizeof(T) - 1 - i];
             }
