@@ -15,12 +15,10 @@ namespace eys {
 
     std::pair<char *, size_t> in_buffer::get_range(size_t size) {
         size_t truth_size = std::min<size_t>(size, this->remain());
-        char *buffer;
+        char *buffer = new char[truth_size];
 
-        std::tie<char *, size_t>(buffer, truth_size) = std::get_temporary_buffer<char>(truth_size);
         std::uninitialized_copy_n(this->buffer.get() + this->seek, truth_size, buffer);
         this->seek += truth_size;
-        std::return_temporary_buffer<char>(buffer);
 
         return std::pair<char *, size_t>(buffer, truth_size);
     }
