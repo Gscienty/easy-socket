@@ -21,11 +21,9 @@ namespace eys {
         return (*this);
     }
     
-    size_t tcp_visitor::receive(int flags) {
+    size_t tcp_visitor::receive() {
         ssize_t data_size = read(this->conn->get_fd(), this->buffer.get(), this->buffer_size);
         if (data_size == -1) {
-            // TODO echo error
-            // perror(strerror(errno));
             this->data_size = 0;
         }
         else {

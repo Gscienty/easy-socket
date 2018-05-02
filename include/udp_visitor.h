@@ -20,11 +20,6 @@ namespace eys {
 
         fd_type get_fd_type() const { return fd_type::fd_type_udp_visitor; }
 
-        template <typename E = char, typename OP_deserializer = deserializer<E> >
-        in_buffer &operator>> (E &e) {
-            return this->get(e);
-        }
-
         template <typename E = char, typename Deserializer = eys::bigendian_serializer<char *, E> >
         in_buffer &get(E &e) {
             if (this->seek >= this->buffer_size) {
@@ -36,7 +31,7 @@ namespace eys {
 
         udp_visitor &operator>> (address &addr);
         udp_sender send();
-        size_t receive(int flags = 0);
+        size_t receive();
     };
 }
 
