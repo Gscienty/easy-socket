@@ -14,7 +14,7 @@ namespace eys {
 
     public:
         connection(connection_type type);
-        connection(connection_type type, address addr, int fd);
+        connection(address addr, int fd);
         connection(const connection &conn);
         virtual ~connection();
 

@@ -4,7 +4,7 @@
 #include "address.h"
 #include "base_fd.h"
 #include "in_buffer.h"
-#include "deserializer.h"
+#include "bigendian_serializer.h"
 #include "tcp_sender.h"
 #include <sys/types.h>
 
@@ -26,7 +26,7 @@ namespace eys {
             return this->get(e);
         }
 
-        template <typename E = char, typename OP_deserializer = deserializer<E> >
+        template <typename E = char, typename OP_deserializer = eys::bigendian_serializer<char *, E> >
         in_buffer &get(E &e) {
             if (this->seek >= this->buffer_size) {
                 return (*this);

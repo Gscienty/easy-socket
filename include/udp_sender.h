@@ -3,7 +3,7 @@
 
 #include "address.h"
 #include "base_fd.h"
-#include "serializer.h"
+#include "bigendian_serializer.h"
 #include <vector>
 #include <memory>
 
@@ -26,14 +26,21 @@ namespace eys {
 
         fd_type get_fd_type() const { return fd_type::fd_type_udp_sender; }
 
-        template <typename E = char, typename OP_serializer = serializer<E> >
-        udp_sender &operator<< (E e) {
+        template <
+            typename ElementType = char,
+            typename SingleByteType = char,
+            typename Serializer = eys::bigendian_serializer<SingleByteType *, ElementType> >
+        udp_sender &put (ElementType e) {
             size_t size;
-            std::unique_ptr<char> bytes(OP_serializer::serialize(e, size));
+            SingleByteType *buffer = nullptr;
+            std::tie<SingleByteType *, size_t>(buffer, size) = Serializer::serialize(e);
+            std::unique_ptr<SingleByteType> bytes(buffer);
+            
             sockaddr_in addr = this->remote.get();
             sendto(this->conn->get_fd(), bytes.get(), size, 0, (sockaddr *) &addr, sizeof(sockaddr_in));
             return (*this);
         }
+
     };
 }
 

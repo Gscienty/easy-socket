@@ -11,7 +11,7 @@ namespace eys {
         std::shared_ptr<char> buffer;
         size_t buffer_size;
         size_t data_size;
-        ssize_t seek;
+        size_t seek;
 
     public:
         in_buffer(size_t buffer_size);

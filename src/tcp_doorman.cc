@@ -8,7 +8,8 @@ namespace eys {
         : base_fd(std::make_shared<connection>(* (new connection(connection_type::conn_type_tcp))))
         , local(local) {
         if (this->get_connection()->bind_address(local) == false) {
-            perror(strerror(errno));
+            // TODO echo error
+            // perror(strerror(errno));
         }
         this->watch(backlog);
     }
@@ -27,7 +28,7 @@ namespace eys {
         int remote_fd = accept(this->conn->get_fd(), (sockaddr *) &remote_addr, &len);
         
         std::shared_ptr<connection> remote_conn = std::make_shared<connection>(
-                *(new connection(connection_type::conn_type_tcp, address(remote_addr), remote_fd)));
+                *(new connection(address(remote_addr), remote_fd)));
 
         return std::move(tcp_visitor(this->local, address(remote_addr), remote_conn, buffer_size));
     }

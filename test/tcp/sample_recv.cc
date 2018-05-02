@@ -4,11 +4,11 @@
 #include <iostream>
 
 int main() {
-    eys::tcp_doorman d(eys::address("0.0.0.0", 1234))
+    eys::tcp_doorman d(eys::address("0.0.0.0", 1234));
     d.watch();
 
     eys::epoll epoller(200);
-    epoll.attention(d, eys::epoll_event_readable, [](base_fd *base, int events) -> void {
+    epoller.attention(d, eys::epoll_event_readable, [](eys::base_fd *base, int events) -> void {
         
     });
 

@@ -19,15 +19,15 @@ namespace eys {
         this->fd = socket(AF_INET, t, 0);
     }
 
-    connection::connection(connection_type type, address addr, int fd)
-        : binded(true)
-        , binded_address(addr)
-        , fd(fd) { }
+    connection::connection(address addr, int fd)
+        : fd(fd)
+        , binded(true)
+        , binded_address(addr) { }
 
     connection::connection(const connection &conn)
-        : binded(conn.binded)
-        , binded_address(conn.binded_address)
-        , fd(conn.fd) { }
+        : fd(conn.fd)
+        , binded(conn.binded)
+        , binded_address(conn.binded_address) { }
 
     connection::~connection() {
         close(this->fd);

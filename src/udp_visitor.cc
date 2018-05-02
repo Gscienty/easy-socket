@@ -2,15 +2,15 @@
 
 namespace eys {
     udp_visitor::udp_visitor(address local, std::shared_ptr<connection> conn, size_t buffer_size)
-        : local(local)
-        , base_fd(conn)
-        , in_buffer(buffer_size) { }
+        : base_fd(conn)
+        , in_buffer(buffer_size)
+        , local(local) { }
 
     udp_visitor::udp_visitor(udp_visitor &&visitor)
-        : local(visitor.local)
-        , remote(visitor.remote)
-        , base_fd(visitor)
-        , in_buffer(visitor) { }
+        : base_fd(visitor)
+        , in_buffer(visitor)
+        , local(visitor.local)
+        , remote(visitor.remote) { }
 
     udp_visitor &udp_visitor::operator>> (address &addr) {
         addr = remote;

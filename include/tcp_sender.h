@@ -3,7 +3,7 @@
 
 #include "address.h"
 #include "base_fd.h"
-#include "serializer.h"
+#include "bigendian_serializer.h"
 
 namespace eys {
     class tcp_sender : public base_fd {
@@ -18,11 +18,16 @@ namespace eys {
 
         fd_type get_fd_type() const { return fd_type::fd_type_tcp_sender; }
 
-        template <typename E = char, typename OP_serializer = serializer<E> >
-        tcp_sender &operator<< (E e) {
+        template <
+            typename ElementType = char,
+            typename SingleByteType = char,
+            typename Serializer = eys::bigendian_serializer<SingleByteType *, ElementType> >
+        tcp_sender &put (ElementType e) {
             size_t size;
-            std::unique_ptr<char> bytes(OP_serializer::serialize(e, size));
-            sockaddr_in addr = this->remote.get();
+            SingleByteType *buffer = nullptr;
+            std::tie<SingleByteType *, size_t>(buffer, size) = Serializer::serialize(e, size);
+            std::unique_ptr<SingleByteType *> bytes(buffer);
+            // sockaddr_in addr = this->remote.get();
             send(this->conn->get_fd(), bytes.get(), size + 1, 0);
             return (*this);
         }

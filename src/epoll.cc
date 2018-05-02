@@ -3,9 +3,9 @@
 
 namespace eys {
     epoll::epoll(size_t size)
-        : active_events(new epoll_event[size])
-        , epoll_fd(epoll_create(size))
-        , fd_count(size) { }
+        : epoll_fd(epoll_create(size))
+        , fd_count(size)
+        , active_events(new epoll_event[size]) { }
 
 
     
