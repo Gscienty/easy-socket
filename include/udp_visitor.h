@@ -20,7 +20,7 @@ namespace eys {
 
         fd_type get_fd_type() const { return fd_type::fd_type_udp_visitor; }
 
-        template <typename E = char, typename Deserializer = eys::bigendian_serializer<char *, E> >
+        template <typename E = char, typename Deserializer = eys::bigendian_serializer<char, E> >
         in_buffer &get(E &e) {
             if (this->seek >= this->buffer_size) {
                 return (*this);

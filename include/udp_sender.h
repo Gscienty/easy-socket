@@ -29,7 +29,7 @@ namespace eys {
         template <
             typename ElementType = char,
             typename SingleByteType = char,
-            typename Serializer = eys::bigendian_serializer<SingleByteType *, ElementType> >
+            typename Serializer = eys::bigendian_serializer<SingleByteType, ElementType> >
         udp_sender &put (ElementType e) {
             size_t size;
             SingleByteType *buffer = nullptr;

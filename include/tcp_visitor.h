@@ -26,12 +26,12 @@ namespace eys {
             return this->get(e);
         }
 
-        template <typename E = char, typename OP_deserializer = eys::bigendian_serializer<char *, E> >
+        template <typename E = char, typename Deserializer = eys::bigendian_serializer<char, E> >
         in_buffer &get(E &e) {
             if (this->seek >= this->buffer_size) {
                 return (*this);
             }
-            e = OP_deserializer::deserialize(this->buffer.get(), this->buffer_size, this->seek);
+            e = Deserializer::deserialize(this->buffer.get(), this->buffer_size, this->seek);
             return (*this);
         }
 
