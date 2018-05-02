@@ -46,9 +46,9 @@ int main() {
         v.get<std::string, string_serializer>(seg);
         std::cout << "receiver : " << seg; 
 
-        // v.receive();
-        // v.get<std::string, string_serializer>(seg);
-        // std::cout << seg << std::endl;
+        seg.clear();
+        v.get<std::string, string_serializer>(seg);
+        std::cout << seg << std::endl;
     });
 
     tcp_receiver.join();
