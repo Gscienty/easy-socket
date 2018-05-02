@@ -33,7 +33,6 @@ namespace eys {
         static std::pair<SingleByteType *, size_t> serialize(ElementType e) {
             size_t size = sizeof(ElementType);
             SingleByteType *buffer = new SingleByteType[size];
-
             __inl_bigendian_serialize(buffer, e);
 
             return std::pair<SingleByteType *, size_t>(buffer, size);

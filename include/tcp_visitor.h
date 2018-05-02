@@ -21,7 +21,7 @@ namespace eys {
 
         fd_type get_fd_type() const { return fd_type::fd_type_tcp_visitor; }
         
-        template <typename E = char, typename OP_deserializer = deserializer<E> >
+        template <typename E = char, typename OP_deserializer = eys::bigendian_serializer<char, E> >
         in_buffer &operator>> (E &e) {
             return this->get(e);
         }

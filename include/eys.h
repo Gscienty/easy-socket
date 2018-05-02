@@ -7,8 +7,8 @@
 #include "in_buffer.h"
 #include "connection.h"
 
-#include "serializer.h"
-#include "deserializer.h"
+#include "bigendian_serializer.h"
+#include "littleendian_serializer.h"
 
 #include "tcp_doorman.h"
 #include "tcp_sender.h"
