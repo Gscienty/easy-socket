@@ -25,17 +25,17 @@ namespace eys {
     public:
         epoll(size_t size);
 
-        template<class T_Arg, class T_Func>
-        bool attention(T_Arg &&arg, const int &events, T_Func &&func) {
-            T_Arg *inner_arg = new T_Arg(arg);
+        template<class ArgumentType, class FunctionType>
+        bool attention(ArgumentType &&arg, const int &events, FunctionType &&func) {
+            ArgumentType *inner_arg = new ArgumentType(arg);
 
             this->fds.insert(std::pair<int, epoll_event_struct>(inner_arg->get_fd(), {
                 inner_arg->get_fd(),
-                std::make_shared<T_Arg>(*inner_arg),
+                std::make_shared<ArgumentType>(*inner_arg),
                 static_cast<void *>(&func),
                 [] (void *callback, epoll_event_struct *arg_store, int events) -> void {
-                    T_Arg *arg = reinterpret_cast<T_Arg *>(arg_store->arg_ptr.get());
-                    (*static_cast<T_Func *>(callback))(*arg, events);
+                    ArgumentType *arg = reinterpret_cast<ArgumentType *>(arg_store->arg_ptr.get());
+                    (*static_cast<FunctionType *>(callback))(*arg, events);
                 }
             }));
         

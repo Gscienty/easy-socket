@@ -16,12 +16,12 @@ namespace eys {
     public:
         in_buffer(size_t buffer_size);
 
-        template <typename E = char, typename OP_deserializer = eys::bigendian_serializer<char, E> >
-        in_buffer &get(E &e) {
+        template <typename ElementType = char, typename Deserializer = eys::bigendian_serializer<char, ElementType> >
+        in_buffer &get(ElementType &e) {
             if (this->seek >= this->buffer_size) {
                 return (*this);
             }
-            e = OP_deserializer::deserialize(this->buffer.get(), this->buffer_size, this->seek);
+            e = Deserializer::deserialize(this->buffer.get(), this->buffer_size, this->seek);
             return (*this);
         }
 
