@@ -4,6 +4,7 @@
 #include "address.h"
 #include "base_fd.h"
 #include "bigendian_serializer.h"
+#include <unistd.h>
 
 namespace eys {
     class tcp_sender : public base_fd {
@@ -23,12 +24,13 @@ namespace eys {
             typename SingleByteType = char,
             typename Serializer = eys::bigendian_serializer<SingleByteType *, ElementType> >
         tcp_sender &put (ElementType e) {
+            // serialize element
             size_t size;
             SingleByteType *buffer = nullptr;
             std::tie<SingleByteType *, size_t>(buffer, size) = Serializer::serialize(e);
             std::unique_ptr<SingleByteType> bytes(buffer);
-            // sockaddr_in addr = this->remote.get();
-            send(this->conn->get_fd(), bytes.get(), size + 1, 0);
+            
+            write(this->conn->get_fd(), bytes.get(), size + 1);
             return (*this);
         }
     };
