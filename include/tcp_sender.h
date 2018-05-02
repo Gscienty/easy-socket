@@ -25,8 +25,8 @@ namespace eys {
         tcp_sender &put (ElementType e) {
             size_t size;
             SingleByteType *buffer = nullptr;
-            std::tie<SingleByteType *, size_t>(buffer, size) = Serializer::serialize(e, size);
-            std::unique_ptr<SingleByteType *> bytes(buffer);
+            std::tie<SingleByteType *, size_t>(buffer, size) = Serializer::serialize(e);
+            std::unique_ptr<SingleByteType> bytes(buffer);
             // sockaddr_in addr = this->remote.get();
             send(this->conn->get_fd(), bytes.get(), size + 1, 0);
             return (*this);
