@@ -24,8 +24,16 @@ namespace eys {
             e = Deserializer::deserialize(this->buffer.get(), this->buffer_size, this->seek);
             return (*this);
         }
+        
+        template <typename SingleByteType = char>
+        std::pair<SingleByteType *, size_t> get_range(size_t size) {
+            size_t truth_size = std::min<size_t>(size, this->remain());
+            SingleByteType *buffer = new SingleByteType[truth_size];
 
-        std::pair<char *, size_t> get_range(size_t size);
+            std::copy(this->buffer.get() + this->seek, this->buffer.get() + this->seek + truth_size, buffer);
+
+            return std::pair<SingleByteType *, size_t>(buffer, truth_size);
+        }
 
         size_t remain() const;
     };
