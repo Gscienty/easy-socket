@@ -17,11 +17,6 @@ namespace eys {
         in_buffer(size_t buffer_size);
 
         template <typename E = char, typename OP_deserializer = eys::bigendian_serializer<char, E> >
-        in_buffer &operator>> (E &e) {
-            return this->get(e);
-        }
-
-        template <typename E = char, typename OP_deserializer = eys::bigendian_serializer<char, E> >
         in_buffer &get(E &e) {
             if (this->seek >= this->buffer_size) {
                 return (*this);
