@@ -31,7 +31,7 @@ namespace eys {
             SingleByteType *buffer = new SingleByteType[truth_size];
 
             std::copy(this->buffer.get() + this->seek, this->buffer.get() + this->seek + truth_size, reinterpret_cast<char *>(buffer));
-
+            this->seek += truth_size;
             return std::pair<SingleByteType *, size_t>(buffer, truth_size);
         }
 
