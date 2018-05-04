@@ -33,8 +33,8 @@ namespace eys {
         udp_sender &put (ElementType e) {
             size_t size;
             SingleByteType *buffer = nullptr;
-            std::tie<SingleByteType *, size_t>(buffer, size) = Serializer::serialize(e);
-            std::unique_ptr<SingleByteType> bytes(buffer);
+            std::tie<SingleByteType [], size_t>(buffer, size) = Serializer::serialize(e);
+            std::unique_ptr<SingleByteType []> bytes(buffer);
             
             sockaddr_in addr = this->remote.get();
             sendto(this->conn->get_fd(), bytes.get(), size, 0, (sockaddr *) &addr, sizeof(sockaddr_in));

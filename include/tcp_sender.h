@@ -28,7 +28,7 @@ namespace eys {
             size_t size;
             SingleByteType *buffer = nullptr;
             std::tie<SingleByteType *, size_t>(buffer, size) = Serializer::serialize(e);
-            std::unique_ptr<SingleByteType> bytes(buffer);
+            std::unique_ptr<SingleByteType []> bytes(buffer);
             
             write(this->conn->get_fd(), bytes.get(), size + 1);
             return (*this);
