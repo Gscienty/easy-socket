@@ -36,7 +36,7 @@ namespace eys {
             __inl_littleendian_serializer<SingleByteType, ElementType>::serialize(buffer, e);
             return std::pair<SingleByteType *, size_t>(buffer, size);
         }
-        static ElementType deserialize(const SingleByteType buffer[], size_t len, size_t &seek) {
+        static ElementType deserialize(SingleByteType buffer[], size_t len, size_t &seek) {
             return __inl_littleendian_serializer<SingleByteType, ElementType>::deserialize(buffer, len, seek);
         }
     };

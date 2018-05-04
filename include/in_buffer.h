@@ -26,13 +26,13 @@ namespace eys {
         }
         
         template <typename SingleByteType = char>
-        std::pair<SingleByteType [], size_t> get_range(size_t size) {
+        std::pair<SingleByteType *, size_t> get_range(size_t size) {
             size_t truth_size = std::min<size_t>(size, this->remain());
             SingleByteType *buffer = new SingleByteType[truth_size];
 
-            std::copy(this->buffer.get() + this->seek, this->buffer.get() + this->seek + truth_size, reinterpret_cast<char []>(buffer));
+            std::copy(this->buffer.get() + this->seek, this->buffer.get() + this->seek + truth_size, reinterpret_cast<char *>(buffer));
             this->seek += truth_size;
-            return std::pair<SingleByteType [], size_t>(buffer, truth_size);
+            return std::pair<SingleByteType *, size_t>(buffer, truth_size);
         }
 
         size_t remain() const;
