@@ -8,18 +8,19 @@
 namespace eys {
     template <typename SingleByteType, typename ElementType>
     struct __inl_bigendian_serializer {
-        static void serialize(SingleByteType v[], ElementType e) {
+        static void serialize(std::basic_string<SingleByteType> &buffer, ElementType e) {
+            buffer.resize(sizeof(ElementType));
             for (size_t i = 0; i < sizeof(ElementType); i++) {
-                v[i]  = reinterpret_cast<SingleByteType *>(&e)[sizeof(ElementType) - 1 - i];
+                buffer[i]  = reinterpret_cast<SingleByteType *>(&e)[sizeof(ElementType) - 1 - i];
             }
         }
 
-        static ElementType deserialize(SingleByteType v[], const size_t len, size_t &seek) {
+        static ElementType deserialize(const std::basic_string<SingleByteType> &buffer, size_t &seek) {
             ElementType result;
             for (size_t i = 0; i < sizeof(ElementType); i++) {
-                reinterpret_cast<SingleByteType *>(&result)[sizeof(ElementType) - 1 - i] = v[seek];
+                reinterpret_cast<SingleByteType *>(&result)[sizeof(ElementType) - 1 - i] = buffer[seek];
                 seek++;
-                if (seek >= len) {
+                if (seek >= buffer.size()) {
                     return result;
                 }
             }
@@ -30,16 +31,15 @@ namespace eys {
    
     template <typename SingleByteType, typename ElementType>
     struct bigendian_serializer {
-        static std::pair<SingleByteType *, size_t> serialize(ElementType e) {
-            size_t size = sizeof(ElementType);
-            SingleByteType *buffer = new SingleByteType[size];
+        static std::basic_string<SingleByteType> serialize(ElementType e) {
+            std::basic_string<SingleByteType> buffer;
             __inl_bigendian_serializer<SingleByteType, ElementType>::serialize(buffer, e);
 
-            return std::pair<SingleByteType *, size_t>(buffer, size);
+            return buffer;
         }
 
-        static ElementType deserialize(SingleByteType buffer[], size_t len, size_t &seek) {
-            return __inl_bigendian_serializer<SingleByteType, ElementType>::deserialize(buffer, len, seek);
+        static ElementType deserialize(const std::basic_string<SingleByteType> &buffer, size_t &seek) {
+            return __inl_bigendian_serializer<SingleByteType, ElementType>::deserialize(buffer, seek);
         }
     };
 }

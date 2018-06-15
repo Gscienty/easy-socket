@@ -31,13 +31,10 @@ namespace eys {
             typename SingleByteType = char,
             typename Serializer = eys::bigendian_serializer<SingleByteType, ElementType> >
         udp_sender &put (ElementType e) {
-            size_t size;
-            SingleByteType *buffer = nullptr;
-            std::tie<SingleByteType [], size_t>(buffer, size) = Serializer::serialize(e);
-            std::unique_ptr<SingleByteType []> bytes(buffer);
+            std::basic_string<SingleByteType> buffer = Serializer::serialize(e);
             
             sockaddr_in addr = this->remote.get();
-            sendto(this->conn->get_fd(), bytes.get(), size, 0, (sockaddr *) &addr, sizeof(sockaddr_in));
+            sendto(this->conn->get_fd(), buffer.data(), buffer.size(), 0, (sockaddr *) &addr, sizeof(sockaddr_in));
             return (*this);
         }
 

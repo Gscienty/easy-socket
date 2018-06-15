@@ -22,7 +22,7 @@ namespace eys {
     }
     
     size_t tcp_visitor::receive() {
-        ssize_t data_size = read(this->conn->get_fd(), this->buffer.get(), this->buffer_size);
+        ssize_t data_size = read(this->conn->get_fd(), const_cast<unsigned char *>(this->buffer.data()), this->buffer_size);
         if (data_size == -1) {
             this->data_size = 0;
         }

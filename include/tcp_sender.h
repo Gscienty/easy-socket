@@ -25,12 +25,9 @@ namespace eys {
             typename Serializer = eys::bigendian_serializer<SingleByteType, ElementType> >
         tcp_sender &put (ElementType e) {
             // serialize element
-            size_t size;
-            SingleByteType *buffer = nullptr;
-            std::tie<SingleByteType *, size_t>(buffer, size) = Serializer::serialize(e);
-            std::unique_ptr<SingleByteType []> bytes(buffer);
+            std::basic_string<SingleByteType> buffer = Serializer::serialize(e);
             
-            write(this->conn->get_fd(), bytes.get(), size + 1);
+            write(this->conn->get_fd(), buffer.data(), buffer.size());
             return (*this);
         }
     };
